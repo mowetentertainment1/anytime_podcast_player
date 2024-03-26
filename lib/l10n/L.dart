@@ -85,6 +85,24 @@ class L {
           locale: localeName,
         );
   }
+  String get livemusic {
+    return message('livemusic') ??
+        Intl.message(
+          'Radio',
+          name: 'livemusic',
+          desc: 'Livemusic tab label',
+          locale: localeName,
+        );
+  }
+  String get livevideo {
+    return message('livevideo') ??
+        Intl.message(
+          'Video',
+          name: 'livevideo',
+          desc: 'Livevideo tab label',
+          locale: localeName,
+        );
+  }
 
   /// Podcasts
   String get subscribe_button_label {

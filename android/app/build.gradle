@@ -46,7 +46,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "uk.me.amugofjava.anytime"
+        applicationId "com.me.mowetent.anytime"
         minSdkVersion 22
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
@@ -79,7 +79,7 @@ android {
         }
     }
 
-    namespace 'uk.me.amugofjava.anytime'
+    namespace 'com.me.mowetent.anytime'
 
     lint {
         abortOnError false

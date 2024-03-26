@@ -13,23 +13,23 @@ ThemeData _buildLightTheme() {
 
   return base.copyWith(
     colorScheme: const ColorScheme.light(
-      primary: Color(0xffff9800),
-      secondary: Color(0xfffb8c00),
+      primary: Color(0xff368ef3),
+      secondary: Color(0xff368ef3),
       background: Color(0xffffffff),
       error: Color(0xffd32f2f),
-      onBackground: Color(0xffff9800),
+      onBackground: Color(0xff368ef3),
     ),
     bottomAppBarTheme: const BottomAppBarTheme().copyWith(
       color: const Color(0xffffffff),
     ),
     cardTheme: const CardTheme().copyWith(
-      color: const Color(0xffffa900),
-      shadowColor: const Color(0xfff57c00),
+      color: const Color(0xff368ef3),
+      shadowColor: const Color(0xff368ef3),
     ),
     brightness: Brightness.light,
-    primaryColor: const Color(0xffff9800),
+    primaryColor: const Color(0xff368ef3),
     primaryColorLight: const Color(0xffffe0b2),
-    primaryColorDark: const Color(0xfff57c00),
+    primaryColorDark: const Color(0xff368ef3),
     canvasColor: const Color(0xffffffff),
     scaffoldBackgroundColor: const Color(0xffffffff),
     cardColor: const Color(0xffffffff),
@@ -40,7 +40,7 @@ ThemeData _buildLightTheme() {
     disabledColor: const Color(0x61000000),
     secondaryHeaderColor: const Color(0xffffffff),
     dialogBackgroundColor: const Color(0xffffffff),
-    indicatorColor: Colors.orange,
+    indicatorColor: Colors.indigo,
     hintColor: const Color(0x8a000000),
     primaryTextTheme: Typography.material2021(platform: TargetPlatform.android).black,
     textTheme: Typography.material2021(
@@ -48,13 +48,13 @@ ThemeData _buildLightTheme() {
     ).black,
     primaryIconTheme: IconThemeData(color: Colors.grey[800]),
     buttonTheme: base.buttonTheme.copyWith(
-      buttonColor: Colors.orange,
+      buttonColor: Colors.indigo,
     ),
     iconTheme: base.iconTheme.copyWith(
-      color: Colors.orange,
+      color: Colors.indigo,
     ),
     sliderTheme: const SliderThemeData().copyWith(
-      valueIndicatorColor: Colors.orange,
+      valueIndicatorColor: Colors.indigo,
       trackHeight: 2.0,
       thumbShape: const RoundSliderThumbShape(
         enabledThumbRadius: 6.0,
@@ -70,7 +70,7 @@ ThemeData _buildLightTheme() {
           statusBarIconBrightness: Brightness.dark,
         )),
     snackBarTheme: base.snackBarTheme.copyWith(
-      actionTextColor: Colors.orange,
+      actionTextColor: Colors.indigo,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(foregroundColor: Colors.grey[800]),
@@ -84,7 +84,7 @@ ThemeData _buildDarkTheme() {
   return base.copyWith(
     colorScheme: const ColorScheme.dark(
       primary: Color(0xffffffff),
-      secondary: Color(0xfffb8c00),
+      secondary: Color(0xff368ef3),
       background: Color(0xff222222),
       error: Color(0xffd32f2f),
       onBackground: Color(0xff656565),
@@ -99,7 +99,7 @@ ThemeData _buildDarkTheme() {
     brightness: Brightness.dark,
     primaryColor: const Color(0xffffffff),
     primaryColorLight: const Color(0xffffe0b2),
-    primaryColorDark: const Color(0xfff57c00),
+    primaryColorDark: const Color(0xff368ef3),
     canvasColor: const Color(0xff000000),
     scaffoldBackgroundColor: const Color(0xff000000),
     cardColor: const Color(0xff0F0F0F),
@@ -110,7 +110,7 @@ ThemeData _buildDarkTheme() {
     disabledColor: const Color(0x77ffffff),
     secondaryHeaderColor: const Color(0xff222222),
     dialogBackgroundColor: const Color(0xff222222),
-    indicatorColor: Colors.orange,
+    indicatorColor: Colors.indigo,
     hintColor: const Color(0x80ffffff),
     primaryTextTheme: Typography.material2021(platform: TargetPlatform.android).white,
     textTheme: Typography.material2021(platform: TargetPlatform.android).white,
@@ -140,7 +140,7 @@ ThemeData _buildDarkTheme() {
           statusBarIconBrightness: Brightness.light,
         )),
     snackBarTheme: base.snackBarTheme.copyWith(
-      actionTextColor: Colors.orange,
+      actionTextColor: Colors.indigo,
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(

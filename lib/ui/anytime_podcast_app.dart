@@ -35,6 +35,8 @@ import 'package:anytime/services/settings/mobile_settings_service.dart';
 import 'package:anytime/ui/library/discovery.dart';
 import 'package:anytime/ui/library/downloads.dart';
 import 'package:anytime/ui/library/library.dart';
+import 'package:anytime/ui/library/livemusic.dart';
+import 'package:anytime/ui/library/livevideo.dart';
 import 'package:anytime/ui/podcast/mini_player.dart';
 import 'package:anytime/ui/podcast/podcast_details.dart';
 import 'package:anytime/ui/search/search.dart';
@@ -152,6 +154,18 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
           ),
           dispose: (_, value) => value.dispose(),
         ),
+        Provider<Livemusic>(
+          create: (_) => Livemusic(
+            // podcastService: widget.podcastService!,
+          ),
+          // dispose: (_, value) => value.dispose(),
+        ),
+        Provider<Livevideo>(
+          create: (_) => Livevideo(
+            // podcastService: widget.podcastService!,
+          ),
+          // dispose: (_, value) => value.dispose(),
+        ),
         Provider<EpisodeBloc>(
           create: (_) =>
               EpisodeBloc(podcastService: widget.podcastService!, audioPlayerService: widget.audioPlayerService),
@@ -192,7 +206,7 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         showSemanticsDebugger: false,
-        title: 'Anytime Podcast Player',
+        title: 'Mo Pod',
         navigatorObservers: [NavigationRouteObserver()],
         localizationsDelegates: const <LocalizationsDelegate<Object>>[
           AnytimeLocalisationsDelegate(),
@@ -207,7 +221,7 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
         theme: theme,
         // Uncomment builder below to enable accessibility checker tool.
         // builder: (context, child) => AccessibilityTools(child: child),
-        home: const AnytimeHomePage(title: 'Anytime Podcast Player'),
+        home: const AnytimeHomePage(title: 'Mo Pod'),
       ),
     );
   }
@@ -506,6 +520,14 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
                     icon: index == 2 ? const Icon(Icons.download) : const Icon(Icons.download_outlined),
                     label: L.of(context)!.downloads,
                   ),
+                  BottomNavigationBarItem(
+                    icon: index == 3 ? const Icon(Icons.radio) : const Icon(Icons.radio_outlined),
+                    label: L.of(context)!.livemusic,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: index == 4 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
+                    label: L.of(context)!.livevideo,
+                  ),
                 ],
               );
             }),
@@ -516,12 +538,17 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
   Widget _fragment(int? index, EpisodeBloc searchBloc) {
     if (index == 0) {
       return const Library();
-    } else if (index == 1) {
+    } if (index == 3) {
+      return const Livemusic();
+    }if (index == 4) {
+      return const Livevideo();
+    }
+    else if (index == 1) {
       return Discovery(
         categories: true,
         inlineSearch: widget.inlineSearch,
       );
-    } else {
+    }else {
       return const Downloads();
     }
   }
@@ -536,7 +563,7 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
       case 'about':
         showAboutDialog(
             context: context,
-            applicationName: 'Anytime Podcast Player',
+            applicationName: 'MoPod',
             applicationVersion: 'v${Environment.projectVersion}',
             applicationIcon: Image.asset(
               'assets/images/anytime-logo-s.png',
@@ -544,7 +571,7 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
               height: 52.0,
             ),
             children: <Widget>[
-              const Text('\u00a9 2020 Ben Hills'),
+              const Text('\u00a9 2024 MoWet Entertainment'),
               GestureDetector(
                 onTap: () {
                   _launchEmail();
@@ -656,7 +683,7 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
 
 class TitleWidget extends StatelessWidget {
   final TextStyle _titleTheme1 = theme.textTheme.bodyMedium!.copyWith(
-    color: const Color.fromARGB(255, 255, 153, 0),
+    color: Colors.indigo,
     fontWeight: FontWeight.bold,
     fontFamily: 'MontserratRegular',
     fontSize: 18,
@@ -687,11 +714,11 @@ class TitleWidget extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Text(
-            'Anytime ',
+            'Mo ',
             style: _titleTheme1,
           ),
           Text(
-            'Player',
+            'Pod',
             style: Theme.of(context).brightness == Brightness.light ? _titleTheme2Light : _titleTheme2Dark,
           ),
         ],
