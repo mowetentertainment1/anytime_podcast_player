@@ -10,14 +10,27 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
+
+// See the docker folder for instructions on how to get a
+// test Matomo instance running
+const _matomoEndpoint = 'http://localhost:8765/matomo.php';
+const _sideId = 1;
+const _testUserId = 'Nelson Pandela';
 
 // ignore_for_file: avoid_print
 void main() async {
   List<int> certificateAuthorityBytes = [];
   WidgetsFlutterBinding.ensureInitialized();
+  await MatomoTracker.instance.initialize(
+    siteId: _sideId,
+    url: _matomoEndpoint,
+  );
+  MatomoTracker.instance.setVisitorUserId(_testUserId);
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
-  Logger.root.level = Level.FINE;
+  // Logger.root.level = Level.FINE;
 
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: - ${record.time}: ${record.loggerName}: ${record.message}');
@@ -25,6 +38,7 @@ void main() async {
 
   var mobileSettingsService = (await MobileSettingsService.instance())!;
   certificateAuthorityBytes = await setupCertificateAuthority();
+
 
   runApp(AnytimePodcastApp(
     mobileSettingsService: mobileSettingsService,

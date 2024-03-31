@@ -528,6 +528,10 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
                     icon: index == 4 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
                     label: L.of(context)!.livevideo,
                   ),
+                  // BottomNavigationBarItem(
+                  //   icon: index == 4 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
+                  //   label: L.of(context)!.livevideo,
+                  // ),
                 ],
               );
             }),
@@ -577,7 +581,7 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
                   _launchEmail();
                 },
                 child: Text(
-                  'hello@anytimeplayer.app',
+                  'mowetentertainment@gmail.com',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Theme.of(context).indicatorColor,
@@ -671,7 +675,7 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
   }
 
   void _launchEmail() async {
-    final uri = Uri.parse('mailto:hello@anytimeplayer.app');
+    final uri = Uri.parse('mailto:mowetentertainment@gmail.com');
 
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
