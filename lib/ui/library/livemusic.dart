@@ -18,6 +18,8 @@ import 'package:anytime/ui/widgets/podcast_grid_tile.dart';
 import 'package:anytime/ui/widgets/podcast_tile.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
+import 'package:flutter_html/flutter_html.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -29,6 +31,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../bloc/podcast/episode_bloc.dart';
 
 /// This class is the root class for rendering the Discover tab.
@@ -37,13 +40,13 @@ import '../../bloc/podcast/episode_bloc.dart';
 ///
 ///
 
+
 Future<void> main() async {
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.smithandtech.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  // runApp(const Livemusic());
 }
 class Livemusic extends StatefulWidget {
   const Livemusic({super.key});
@@ -52,7 +55,10 @@ class Livemusic extends StatefulWidget {
   State<StatefulWidget> createState() => _LivemusicState();
 }
 
+final staticAnchorKey = GlobalKey();
+
 class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
+  late final WebViewController controller;
 
   late AudioPlayer _player = AudioPlayer();
 
@@ -66,6 +72,29 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
       statusBarColor: Colors.black,
     ));
     _init();
+
+    // #docregion webview_controller
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://watch.owncast.online/embed/chat/readwrite'));
+    // #enddocregion webview_controller
 
   }
 
@@ -82,7 +111,7 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
     // Try to load audio from a source and catch any errors.
     try {
       await _player.setAudioSource(AudioSource.uri(
-          Uri.parse("https://radio.mowetent.com/live")));
+          Uri.parse("https://mopod-2.s3.us-east-2.amazonaws.com/Smooth+Operator.mp3")));
     } catch (e) {
       print("Error loading audio source: $e");
     }
@@ -137,24 +166,35 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
                     final url = metadata?.info?.url;
                     return Column(
                       children: [
-                        // if (url != null) Image.network(url),
+                        if (url != null) Image.network(url),
                         CachedNetworkImage(
-                          imageUrl: "https://cloud.smithandtech.com/index.php/s/bs6qBSKCjsMJcme/download/30776838.png",
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 140.0,
+                          imageUrl: "https://mopod-2.s3.us-east-2.amazonaws.com/413OXatc0UL._UXNaN_FMjpg_QL85_.jpg",
                           placeholder: (context, url) => CircularProgressIndicator(),
                           errorWidget: (context, url, error) => Icon(Icons.error),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
+                          padding: const EdgeInsets.all(0),
                           child: Text(title,
                               style: Theme.of(context).textTheme.titleLarge),
                         ),
-
                       ],
                     );
                   },
                 ),
                 // Display play/pause button and volume/speed sliders.
                 ControlButtons(_player),
+                Padding(
+                  padding: EdgeInsets.all(0),
+                  child: Container(
+                    padding: EdgeInsets.all(0),
+                    width: double.infinity,
+                    height: 760,
+                    child: WebViewWidget(controller: controller),
+                  ),
+                ),
               ],
             ),
           ),
@@ -193,20 +233,23 @@ class ControlButtons extends StatelessWidget {
               );
             } else if (playing != true) {
               return IconButton(
+                color: Colors.blue,
                 icon: const Icon(Icons.play_arrow),
-                iconSize: 64.0,
+                iconSize: 44.0,
                 onPressed: player.play,
               );
             } else if (processingState != ProcessingState.completed) {
               return IconButton(
+                color: Colors.blue,
                 icon: const Icon(Icons.pause),
-                iconSize: 64.0,
+                iconSize: 44.0,
                 onPressed: player.pause,
               );
             } else {
               return IconButton(
+                color: Colors.blue,
                 icon: const Icon(Icons.replay),
-                iconSize: 64.0,
+                iconSize: 44.0,
                 onPressed: () => player.seek(Duration.zero),
               );
             }

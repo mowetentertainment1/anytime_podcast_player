@@ -30,6 +30,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:video_player/video_player.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../bloc/podcast/episode_bloc.dart';
 
 /// This class is the root class for rendering the Discover tab.
@@ -54,7 +55,7 @@ class Livevideo extends StatefulWidget {
 }
 
 class _LivevideoState extends State<Livevideo> {
-
+  late final WebViewController controller;
   late VideoPlayerController _controller;
 
   @override
@@ -62,12 +63,34 @@ class _LivevideoState extends State<Livevideo> {
     super.initState();
     WakelockPlus.enable();
     _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://live.mowetent.com/hls/stream.m3u8'))
+        'https://watch.owncast.online/hls/stream.m3u8'))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
      _controller.play();
+    // #docregion webview_controller
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {},
+          onWebResourceError: (WebResourceError error) {},
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse('https://watch.owncast.online/embed/chat/readwrite'));
+    // #enddocregion webview_controller
 
   }
 
@@ -93,12 +116,14 @@ class _LivevideoState extends State<Livevideo> {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<EpisodeBloc>(context);
-    return SliverFillRemaining(
-      hasScrollBody: false,
-      child: SizedBox(
+    return SliverToBoxAdapter(
+      // hasScrollBody: false,
+      child: Container(
+        height: 950,
         width: double.maxFinite,
         child: Scaffold(
           body: Column(
+
             children: [
               Center(
                 // width: double.maxFinite,
@@ -109,82 +134,33 @@ class _LivevideoState extends State<Livevideo> {
                 )
                     : Container()
               ),
-              CachedNetworkImage(
-                imageUrl: "https://cloud.smithandtech.com/index.php/s/bs6qBSKCjsMJcme/download/30776838.png",
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground
+                ),
+                onPressed: () {
+                  setState(() {
+                    _controller.value.isPlaying
+                        ? _controller.pause()
+                        : _controller.play();
+                  });
+                },
+                child: Icon(
+                  _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(0),
+                child: SizedBox(
+                  width: double.maxFinite,
+                  height: 655,
+                  child: WebViewWidget(controller: controller),
+                ),
               ),
             ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-                _controller.value.isPlaying
-                    ? _controller.pause()
-                    : _controller.play();
-              });
-            },
-            child: Icon(
-              _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-            ),
           ),
         ),
       ),
     );
   }
 }
-
-/// Displays the play/pause button and volume/speed sliders.
-// class ControlButtons extends StatelessWidget {
-//   final AudioPlayer player;
-//
-//   const ControlButtons(this.player, {Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: [
-//         /// This StreamBuilder rebuilds whenever the player state changes, which
-//         /// includes the playing/paused state and also the
-//         /// loading/buffering/ready state. Depending on the state we show the
-//         /// appropriate button or loading indicator.
-//         StreamBuilder<PlayerState>(
-//           stream: player.playerStateStream,
-//           builder: (context, snapshot) {
-//             final playerState = snapshot.data;
-//             final processingState = playerState?.processingState;
-//             final playing = playerState?.playing;
-//             if (processingState == ProcessingState.loading ||
-//                 processingState == ProcessingState.buffering) {
-//               return Container(
-//                 margin: const EdgeInsets.all(8.0),
-//                 width: 64.0,
-//                 height: 64.0,
-//                 child: const CircularProgressIndicator(),
-//               );
-//             } else if (playing != true) {
-//               return IconButton(
-//                 icon: const Icon(Icons.play_arrow),
-//                 iconSize: 64.0,
-//                 onPressed: player.play,
-//               );
-//             } else if (processingState != ProcessingState.completed) {
-//               return IconButton(
-//                 icon: const Icon(Icons.pause),
-//                 iconSize: 64.0,
-//                 onPressed: player.pause,
-//               );
-//             } else {
-//               return IconButton(
-//                 icon: const Icon(Icons.replay),
-//                 iconSize: 64.0,
-//                 onPressed: () => player.seek(Duration.zero),
-//               );
-//             }
-//           },
-//         ),
-//       ],
-//     );
-//   }
-// }

@@ -316,7 +316,7 @@ class _TranscriptViewState extends State<TranscriptView> {
                                     child: Container(
                                       padding: const EdgeInsets.all(4.0),
                                       decoration: BoxDecoration(
-                                          color: selected ? Colors.orange : Colors.transparent, shape: BoxShape.circle),
+                                          color: selected ? Colors.blue : Colors.transparent, shape: BoxShape.circle),
                                       child: CircleAvatar(
                                         radius: 28,
                                         backgroundImage: ExtendedImage.network(

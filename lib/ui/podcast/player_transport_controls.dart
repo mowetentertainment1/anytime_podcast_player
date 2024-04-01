@@ -176,8 +176,8 @@ class _AnimatedPlayButtonState extends State<AnimatedPlayButton> with SingleTick
           child: TextButton(
             style: TextButton.styleFrom(
               shape: CircleBorder(side: BorderSide(color: Theme.of(context).highlightColor, width: 0.0)),
-              backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.orange : Colors.grey[800],
-              foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.orange : Colors.grey[800],
+              backgroundColor: Theme.of(context).brightness == Brightness.light ? Colors.blue : Colors.grey[800],
+              foregroundColor: Theme.of(context).brightness == Brightness.light ? Colors.blue : Colors.grey[800],
               padding: const EdgeInsets.all(6.0),
             ),
             onPressed: () {

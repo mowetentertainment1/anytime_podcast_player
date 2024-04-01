@@ -103,6 +103,25 @@ class L {
           locale: localeName,
         );
   }
+  String get playlist {
+    return message('playlist') ??
+        Intl.message(
+          'Playlist',
+          name: 'playlist',
+          desc: 'Playlist tab label',
+          locale: localeName,
+        );
+  }
+
+  String get webview {
+    return message('webview') ??
+        Intl.message(
+          'Webview',
+          name: 'webview',
+          desc: 'Webview tab label',
+          locale: localeName,
+        );
+  }
 
   /// Podcasts
   String get subscribe_button_label {

@@ -37,6 +37,8 @@ import 'package:anytime/ui/library/downloads.dart';
 import 'package:anytime/ui/library/library.dart';
 import 'package:anytime/ui/library/livemusic.dart';
 import 'package:anytime/ui/library/livevideo.dart';
+import 'package:anytime/ui/library/playlist.dart';
+import 'package:anytime/ui/library/webview.dart';
 import 'package:anytime/ui/podcast/mini_player.dart';
 import 'package:anytime/ui/podcast/podcast_details.dart';
 import 'package:anytime/ui/search/search.dart';
@@ -160,8 +162,20 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
           ),
           // dispose: (_, value) => value.dispose(),
         ),
+        Provider<Livemusic>(
+          create: (_) => Livemusic(
+            // podcastService: widget.podcastService!,
+          ),
+          // dispose: (_, value) => value.dispose(),
+        ),
         Provider<Livevideo>(
           create: (_) => Livevideo(
+            // podcastService: widget.podcastService!,
+          ),
+          // dispose: (_, value) => value.dispose(),
+        ),
+        Provider<Webview>(
+          create: (_) => Webview(
             // podcastService: widget.podcastService!,
           ),
           // dispose: (_, value) => value.dispose(),
@@ -521,17 +535,21 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
                     label: L.of(context)!.downloads,
                   ),
                   BottomNavigationBarItem(
-                    icon: index == 3 ? const Icon(Icons.radio) : const Icon(Icons.radio_outlined),
+                    icon: index == 3 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
+                    label: L.of(context)!.livevideo,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: index == 4 ? const Icon(Icons.radio) : const Icon(Icons.radio_outlined),
                     label: L.of(context)!.livemusic,
                   ),
                   BottomNavigationBarItem(
-                    icon: index == 4 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
-                    label: L.of(context)!.livevideo,
+                    icon: index == 5 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
+                    label: L.of(context)!.playlist,
                   ),
-                  // BottomNavigationBarItem(
-                  //   icon: index == 4 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
-                  //   label: L.of(context)!.livevideo,
-                  // ),
+                  BottomNavigationBarItem(
+                    icon: index == 6 ? const Icon(Icons.web) : const Icon(Icons.web_outlined),
+                    label: L.of(context)!.webview,
+                  ),
                 ],
               );
             }),
@@ -542,10 +560,16 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
   Widget _fragment(int? index, EpisodeBloc searchBloc) {
     if (index == 0) {
       return const Library();
-    } if (index == 3) {
+    } if (index == 4) {
       return const Livemusic();
-    }if (index == 4) {
+    }if (index == 3) {
       return const Livevideo();
+    }if (index == 3) {
+      return const Livevideo();
+    } if (index == 5) {
+      return const Playlist();
+    }if (index == 6) {
+      return const Webview();
     }
     else if (index == 1) {
       return Discovery(
