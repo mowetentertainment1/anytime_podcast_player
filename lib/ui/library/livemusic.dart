@@ -2,37 +2,15 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:anytime/bloc/discovery/discovery_bloc.dart';
-import 'package:anytime/bloc/discovery/discovery_state_event.dart';
-import 'package:anytime/bloc/podcast/podcast_bloc.dart';
-import 'package:anytime/bloc/settings/settings_bloc.dart';
-import 'package:anytime/entities/app_settings.dart';
-import 'package:anytime/entities/episode.dart';
-import 'package:anytime/entities/podcast.dart';
-import 'package:anytime/l10n/L.dart';
-import 'package:anytime/state/bloc_state.dart';
-import 'package:anytime/ui/library/discovery_results.dart';
-import 'package:anytime/ui/podcast/podcast_episode_list.dart';
-import 'package:anytime/ui/widgets/platform_progress_indicator.dart';
-import 'package:anytime/ui/widgets/podcast_grid_tile.dart';
-import 'package:anytime/ui/widgets/podcast_tile.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
-import 'package:flutter_html/flutter_html.dart';
-import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 import 'package:anytime/ui/library/common.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../bloc/podcast/episode_bloc.dart';
 
 /// This class is the root class for rendering the Discover tab.
 ///
@@ -93,7 +71,7 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://watch.owncast.online/embed/chat/readwrite'));
+      ..loadRequest(Uri.parse('https://cloud.smithandtech.com/index.php/call/nkb8epbw'));
     // #enddocregion webview_controller
 
   }
@@ -106,14 +84,14 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
     // Listen to errors during playback.
     _player.playbackEventStream.listen((event) {},
         onError: (Object e, StackTrace stackTrace) {
-          print('A stream error occurred: $e');
+          // print('A stream error occurred: $e');
         });
     // Try to load audio from a source and catch any errors.
     try {
       await _player.setAudioSource(AudioSource.uri(
-          Uri.parse("https://mopod-2.s3.us-east-2.amazonaws.com/Smooth+Operator.mp3")));
+          Uri.parse("https://radio.mowetent.com/live")));
     } catch (e) {
-      print("Error loading audio source: $e");
+      // print("Error loading audio source: $e");
     }
     _player.play();
     WakelockPlus.enable();
@@ -129,14 +107,6 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
-              (position, bufferedPosition, duration) => PositionData(
-              position, bufferedPosition, duration ?? Duration.zero));
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
@@ -149,9 +119,8 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<EpisodeBloc>(context);
-        return SliverFillRemaining(
-          hasScrollBody: false,
+    // final bloc = Provider.of<EpisodeBloc>(context);
+        return SliverToBoxAdapter(
           child: SizedBox(
             width: double.maxFinite,
             child: Column(
@@ -172,8 +141,8 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
                           width: double.infinity,
                           height: 140.0,
                           imageUrl: "https://mopod-2.s3.us-east-2.amazonaws.com/413OXatc0UL._UXNaN_FMjpg_QL85_.jpg",
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(0),
@@ -187,9 +156,9 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
                 // Display play/pause button and volume/speed sliders.
                 ControlButtons(_player),
                 Padding(
-                  padding: EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(0),
                   child: Container(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     width: double.infinity,
                     height: 760,
                     child: WebViewWidget(controller: controller),
@@ -206,7 +175,7 @@ class _LivemusicState extends State<Livemusic> with WidgetsBindingObserver {
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
-  const ControlButtons(this.player, {Key? key}) : super(key: key);
+  const ControlButtons(this.player, {super.key});
 
   @override
   Widget build(BuildContext context) {

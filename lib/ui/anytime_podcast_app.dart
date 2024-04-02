@@ -157,25 +157,25 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
           dispose: (_, value) => value.dispose(),
         ),
         Provider<Livemusic>(
-          create: (_) => Livemusic(
+          create: (_) => const Livemusic(
             // podcastService: widget.podcastService!,
           ),
           // dispose: (_, value) => value.dispose(),
         ),
         Provider<Livemusic>(
-          create: (_) => Livemusic(
+          create: (_) => const Livemusic(
             // podcastService: widget.podcastService!,
           ),
           // dispose: (_, value) => value.dispose(),
         ),
         Provider<Livevideo>(
-          create: (_) => Livevideo(
+          create: (_) => const Livevideo(
             // podcastService: widget.podcastService!,
           ),
           // dispose: (_, value) => value.dispose(),
         ),
         Provider<Webview>(
-          create: (_) => Webview(
+          create: (_) => const Webview(
             // podcastService: widget.podcastService!,
           ),
           // dispose: (_, value) => value.dispose(),

@@ -2,36 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:anytime/bloc/discovery/discovery_bloc.dart';
-import 'package:anytime/bloc/discovery/discovery_state_event.dart';
-import 'package:anytime/bloc/podcast/podcast_bloc.dart';
-import 'package:anytime/bloc/settings/settings_bloc.dart';
-import 'package:anytime/entities/app_settings.dart';
-import 'package:anytime/entities/episode.dart';
-import 'package:anytime/entities/podcast.dart';
-import 'package:anytime/l10n/L.dart';
-import 'package:anytime/state/bloc_state.dart';
-import 'package:anytime/ui/library/discovery_results.dart';
-import 'package:anytime/ui/podcast/podcast_episode_list.dart';
-import 'package:anytime/ui/widgets/platform_progress_indicator.dart';
-import 'package:anytime/ui/widgets/podcast_grid_tile.dart';
-import 'package:anytime/ui/widgets/podcast_tile.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 import 'package:anytime/ui/library/common.dart';
-import 'package:audio_session/audio_session.dart';
-import 'package:flutter/services.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
-import 'package:rxdart/rxdart.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../bloc/podcast/episode_bloc.dart';
 
 /// This class is the root class for rendering the Discover tab.
 ///
@@ -39,14 +14,7 @@ import '../../bloc/podcast/episode_bloc.dart';
 ///
 ///
 
-// Future<void> main() async {
-//   await JustAudioBackground.init(
-//     androidNotificationChannelId: 'com.smithandtech.bg_demo.channel.audio',
-//     androidNotificationChannelName: 'Audio playback',
-//     androidNotificationOngoing: true,
-//   );
-//   // runApp(const Livemusic());
-// }
+
 class Webview extends StatefulWidget {
   const Webview({super.key});
 
@@ -59,7 +27,7 @@ final staticAnchorKey = GlobalKey();
 class _WebviewState extends State<Webview> with WidgetsBindingObserver {
 
   late final WebViewController controller;
-  late AudioPlayer _player = AudioPlayer();
+  // late AudioPlayer _player = AudioPlayer();
 
   @override
   void initState() {
@@ -110,9 +78,9 @@ class _WebviewState extends State<Webview> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<EpisodeBloc>(context);
+    // final bloc = Provider.of<EpisodeBloc>(context);
         return SliverFillRemaining(
-          hasScrollBody: false,
+          hasScrollBody: true,
           child: WebViewWidget(controller: controller),
         );
       }

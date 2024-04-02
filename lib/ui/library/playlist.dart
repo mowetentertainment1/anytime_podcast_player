@@ -2,34 +2,14 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:anytime/bloc/discovery/discovery_bloc.dart';
-import 'package:anytime/bloc/discovery/discovery_state_event.dart';
-import 'package:anytime/bloc/podcast/podcast_bloc.dart';
-import 'package:anytime/bloc/settings/settings_bloc.dart';
-import 'package:anytime/entities/app_settings.dart';
-import 'package:anytime/entities/episode.dart';
-import 'package:anytime/entities/podcast.dart';
-import 'package:anytime/l10n/L.dart';
-import 'package:anytime/state/bloc_state.dart';
-import 'package:anytime/ui/library/discovery_results.dart';
-import 'package:anytime/ui/podcast/podcast_episode_list.dart';
-import 'package:anytime/ui/widgets/platform_progress_indicator.dart';
-import 'package:anytime/ui/widgets/podcast_grid_tile.dart';
-import 'package:anytime/ui/widgets/podcast_tile.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 import 'package:anytime/ui/library/common2.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
-import '../../bloc/podcast/episode_bloc.dart';
 
 /// This class is the root class for rendering the Discover tab.
 ///
@@ -43,7 +23,6 @@ Future<void> main() async {
     androidNotificationChannelName: 'Audio playback',
     androidNotificationOngoing: true,
   );
-  // runApp(const Livemusic());
 }
 class Playlist extends StatefulWidget {
   const Playlist({super.key});
@@ -99,7 +78,6 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
       ),
     ),
   ]);
-  int _addedCount = 0;
 
   @override
   void initState() {
@@ -117,14 +95,14 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
     // Listen to errors during playback.
     _player.playbackEventStream.listen((event) {},
         onError: (Object e, StackTrace stackTrace) {
-          print('A stream error occurred: $e');
+          // print('A stream error occurred: $e');
         });
     try {
       await _player.setAudioSource(_playlist);
-    } catch (e, stackTrace) {
+    } catch (e) {
       // Catch load errors: 404, invalid url ...
-      print("Error loading playlist: $e");
-      print(stackTrace);
+      // print("Error loading playlist: $e");
+      // print(stackTrace);
     }
   }
 
@@ -144,7 +122,7 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<EpisodeBloc>(context);
+    // final bloc = Provider.of<EpisodeBloc>(context);
         return SliverFillRemaining(
           hasScrollBody: false,
           child: Scaffold(
@@ -167,10 +145,11 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(0),
                                 child: Center(
                                     child:
-                                    Image.network(metadata.artUri.toString())),
+                                    Image.network(fit: BoxFit.cover,width: double.infinity,
+                                        height: 300.0,metadata.artUri.toString())),
                               ),
                             ),
                             Text(metadata.album!,
@@ -299,21 +278,6 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
                 ],
               ),
             ),
-            // floatingActionButton: FloatingActionButton(
-            //   child: const Icon(Icons.add),
-            //   onPressed: () {
-            //     _playlist.add(AudioSource.uri(
-            //       Uri.parse("https://mopod-2.s3.us-east-2.amazonaws.com/Smooth+Operator.mp3"),
-            //       tag: MediaItem(
-            //         id: '${_nextMediaId++}',
-            //         album: "MoWetTheDon - Smooth Operator",
-            //         title: "Smooth Operator ${++_addedCount}",
-            //         artUri: Uri.parse(
-            //             "https://mopod-2.s3.us-east-2.amazonaws.com/413OXatc0UL._UXNaN_FMjpg_QL85_.jpg"),
-            //       ),
-            //     ));
-            //   },
-            // ),
           ),
         );
       }
@@ -323,7 +287,7 @@ class _PlaylistState extends State<Playlist> with WidgetsBindingObserver {
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
-  const ControlButtons(this.player, {Key? key}) : super(key: key);
+  const ControlButtons(this.player, {super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -14,9 +14,9 @@ import 'package:matomo_tracker/matomo_tracker.dart';
 
 // See the docker folder for instructions on how to get a
 // test Matomo instance running
-const _matomoEndpoint = 'http://localhost:8765/matomo.php';
-const _sideId = 1;
-const _testUserId = 'Nelson Pandela';
+const _matomoEndpoint = 'https://analytics.smithandtech.com/matomo.php';
+const _sideId = 2;
+const _testUserId = 'mowetthedon';
 
 // ignore_for_file: avoid_print
 void main() async {

@@ -114,9 +114,6 @@ class _DiscoveryHeaderState extends State<DiscoveryHeader> {
                       padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
                       child: DropdownButton<String>(
                         value: 'All',
-                        // icon: const Icon(Icons.arrow_downward),
-                        // iconSize: 16,
-                        // elevation: 16,
                         style: const TextStyle(color: Colors.white),
                         underline: Container(
                           height: 2,
@@ -124,7 +121,7 @@ class _DiscoveryHeaderState extends State<DiscoveryHeader> {
                         ),
                         onChanged: (String? newValue) {
                           setState(() {
-                            // dropdownValue = newValue!;
+
                           });
                         },
                         items: snapshot.data!.map<DropdownMenuItem<String>>((String value) {
