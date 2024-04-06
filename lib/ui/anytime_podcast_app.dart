@@ -174,12 +174,12 @@ class AnytimePodcastAppState extends State<AnytimePodcastApp> {
           ),
           // dispose: (_, value) => value.dispose(),
         ),
-        Provider<Webview>(
-          create: (_) => const Webview(
-            // podcastService: widget.podcastService!,
-          ),
-          // dispose: (_, value) => value.dispose(),
-        ),
+        // Provider<Webview>(
+        //   create: (_) => const Webview(
+        //     // podcastService: widget.podcastService!,
+        //   ),
+        //   // dispose: (_, value) => value.dispose(),
+        // ),
         Provider<EpisodeBloc>(
           create: (_) =>
               EpisodeBloc(podcastService: widget.podcastService!, audioPlayerService: widget.audioPlayerService),
@@ -546,10 +546,10 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
                     icon: index == 5 ? const Icon(Icons.tv) : const Icon(Icons.tv_outlined),
                     label: L.of(context)!.playlist,
                   ),
-                  BottomNavigationBarItem(
-                    icon: index == 6 ? const Icon(Icons.web) : const Icon(Icons.web_outlined),
-                    label: L.of(context)!.webview,
-                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: index == 6 ? const Icon(Icons.web) : const Icon(Icons.web_outlined),
+                  //   label: L.of(context)!.webview,
+                  // ),
                 ],
               );
             }),
@@ -568,9 +568,10 @@ class _AnytimeHomePageState extends State<AnytimeHomePage> with WidgetsBindingOb
       return const Livevideo();
     } if (index == 5) {
       return const Playlist();
-    }if (index == 6) {
-      return const Webview();
     }
+    // if (index == 6) {
+    //   return const Webview();
+    // }
     else if (index == 1) {
       return Discovery(
         categories: true,

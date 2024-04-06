@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:anytime/services/settings/mobile_settings_service.dart';
 import 'package:anytime/ui/anytime_podcast_app.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logging/logging.dart';
@@ -22,6 +23,8 @@ const _testUserId = 'mowetthedon';
 void main() async {
   List<int> certificateAuthorityBytes = [];
   WidgetsFlutterBinding.ensureInitialized();
+
+
   await MatomoTracker.instance.initialize(
     siteId: _sideId,
     url: _matomoEndpoint,
